@@ -1,0 +1,22 @@
+.input {
+    margin-bottom: 20px;
+}
+
+.input label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input input {
+    width: 100%;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 16px;
+}
+
+.input input:valid,
+.input input:focus {
+    border-color: lime;
+}

@@ -1,0 +1,38 @@
+nav {
+    background-color: #28bf39;
+    color: #fff;
+    margin-bottom: 30px;
+}
+
+nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav .container h3 {
+    font-weight: 300;
+    font-size: 24px;
+}
+
+nav .container ul {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    list-style: none;
+}
+
+nav .container ul li {
+    margin-left: 20px;
+}
+
+nav .container ul li button {
+    font-size: 18px;
+    padding: 8px 20px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+    background-color: red;
+    color: #fff;
+    cursor: pointer;
+}
