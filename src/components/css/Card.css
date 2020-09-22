@@ -1,0 +1,58 @@
+.card {
+    /* width: 90%; */
+    /* max-width: 300px; */
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 25px;
+    box-shadow: 0 10px 12px rgba(0, 0, 0, 0.1);
+    transition: .2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.card ul {
+    list-style: none;
+}
+
+.card ul li {
+    margin-bottom: 10px;
+}
+
+.card .cta {
+    display: flex;
+}
+
+.card .cta button {
+    margin-top: 20px;
+    width: 100%;
+    margin-left: 10px;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.card .cta button:hover {
+    opacity: .8;
+}
+
+.card .cta button:first-child {
+    margin-left: 0;
+}
+
+.card .cta button.edit {
+    background-color: orange;
+}
+
+.card .cta button.delete {
+    color: #fff;
+    background-color: red;
+}

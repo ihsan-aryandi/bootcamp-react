@@ -1,0 +1,23 @@
+.pagination {
+    display: block;
+    margin: auto;
+    margin-top: 50px;
+    width: max-content;
+}
+
+.pagination .order {
+    cursor: pointer;
+    user-select: none;
+    display: inline-block;
+    padding: 15px 20px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    transition: .2s;
+}
+
+.pagination .order.active,
+.pagination .order:hover {
+    background-color: limegreen;
+    color: #fff;
+    border-radius: 50%;
+    border-color: limegreen;
+}

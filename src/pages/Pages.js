@@ -5,12 +5,12 @@ import AdminPage from './AdminPage'
 import PedagangPage from './PedagangPage'
 import UserPage from './UserPage'
 
-export default function Pages({ user, users, setIsLoggedIn }) {
+export default function Pages({ user, users, setIsLoggedIn, setUsers }) {
     let page = null;
 
     switch(user.role) {
         case "admin" :
-            page = <AdminPage user={user} users={users} />
+            page = <AdminPage user={user} users={users} setUsers={setUsers} />
             break;
         case "pedagang" :
             page = <PedagangPage user={user} />

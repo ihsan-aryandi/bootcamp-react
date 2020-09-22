@@ -1,0 +1,25 @@
+.form-pedagang{
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 25px 30px;
+}
+
+.form-pedagang button {
+    display: block;
+    border: none;
+    background-color: limegreen;
+    color: #fff;
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.form-pedagang button:hover {
+    opacity: .8;
+}
+
+.form-pedagang h2 {
+    margin-bottom: 20px;
+}
