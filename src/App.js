@@ -5,7 +5,7 @@ import LoginPage from './pages/LoginPage'
 import Pages from './pages/Pages'
 
 function App() {
-  const [isLogged, setIsLoggedIn] = useState(false);
+  const [isLogged, setIsLoggedIn] = useState(true);
   const [userLoggedIn, setUserLoggedIn] = useState({})
   const [users, setUsers] = useState([
     {
