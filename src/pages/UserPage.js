@@ -16,7 +16,7 @@ export default function UserPage({ user }) {
         const fetchData = async () => {
             const load = setTimeout(() => {
                 setIsLoading(true);
-            }, 200)
+            }, 300)
             const res = await fetch(`https://jsonplaceholder.typicode.com/photos?_page=${page}&_limit=${dataPerPage}`);
             const data = await res.json();
     

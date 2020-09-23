@@ -8,9 +8,7 @@ import UserPage from './UserPage'
 export default function Pages({ user, users, setIsLoggedIn, setUsers }) {
     let page = null;
 
-    const role = "user"
-
-    switch(role) {
+    switch(user.role) {
         case "admin" :
             page = <AdminPage user={user} users={users} setUsers={setUsers} />
             break;
