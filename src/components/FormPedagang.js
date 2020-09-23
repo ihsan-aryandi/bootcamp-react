@@ -4,7 +4,6 @@ import Input from './Input'
 import './css/FormPedagang.css'
 
 export default function FormPedagang({ setUsers, action, setAction, userEdit, setUserEdit }) {
-    const [id, setId] = useState('')
     const [name, setName] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -12,7 +11,6 @@ export default function FormPedagang({ setUsers, action, setAction, userEdit, se
     useEffect(() => {
         if(userEdit !== null)
         {
-            setId(userEdit.id)
             setName(userEdit.name)
             setUsername(userEdit.username)
             setPassword(userEdit.password)
@@ -26,7 +24,8 @@ export default function FormPedagang({ setUsers, action, setAction, userEdit, se
             name: name,
             username: username,
             password: password,
-            role: "pedagang"
+            role: "user",
+            isActive: password === '' ? false : true
         }
 
         if(action === "insert")
@@ -39,7 +38,7 @@ export default function FormPedagang({ setUsers, action, setAction, userEdit, se
         else if(action === "edit")
         {
             setUsers(prevUsers => {
-                const id = parseInt(e.target.id.value);  
+                const id = userEdit.id;  
                 const newData = [...prevUsers];
                 const userIndex = newData.findIndex(user => user.id === id);
                 newData[userIndex] = {...newData[userIndex], ...newUser}
@@ -53,7 +52,6 @@ export default function FormPedagang({ setUsers, action, setAction, userEdit, se
             setUserEdit(null)
         }
 
-        setId('')
         setName('')
         setUsername('')
         setPassword('')
@@ -66,13 +64,7 @@ export default function FormPedagang({ setUsers, action, setAction, userEdit, se
             <h2>Form</h2> 
             <> 
                 <Input 
-                    type="hidden" 
-                    name="id"
-                    value={id}
-                    onChange={e => setId(e.target.value)}         
-                />
-                <Input 
-                    label="Nama Pedagang" 
+                    label="Nama" 
                     type="text" 
                     name="name" 
                     value={name}

@@ -2,7 +2,8 @@ import React from 'react'
 
 import './css/PedagangPage.css'
 
-export default function PedagangPage({ user }) {
+export default function PedagangPage({ user, history }) {
+    if(user === null) return history.push('/login')
     return (
         <>
             <h2>Selamat Datang { user.name }</h2>

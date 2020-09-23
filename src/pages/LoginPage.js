@@ -3,8 +3,8 @@ import React from 'react'
 import './css/LoginPage.css'
 import Input from '../components/Input'
 
-export default function LoginPage({ setIsLoggedIn, setUserLoggedIn, users }) {
-
+export default function LoginPage({ userLoggedIn, setIsLoggedIn, setUserLoggedIn, users, redirect }) {
+    
     const handleSubmit = e => {
         e.preventDefault();
 
@@ -14,6 +14,13 @@ export default function LoginPage({ setIsLoggedIn, setUserLoggedIn, users }) {
             const checkUsername = value.username === username.value
             const checkPassword = value.password === password.value
 
+            if(value.role === "user")
+            {
+                if(!value.isActive) return false;
+
+                return (checkUsername && checkPassword);
+            }
+
             return (checkUsername && checkPassword)
         })
 
@@ -21,6 +28,7 @@ export default function LoginPage({ setIsLoggedIn, setUserLoggedIn, users }) {
         {
             setIsLoggedIn(true)
             setUserLoggedIn(user)
+            redirect(`/${user.role}`)
         }
         else
         {

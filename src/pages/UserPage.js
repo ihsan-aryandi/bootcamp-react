@@ -5,7 +5,7 @@ import Pagination from '../components/Pagination'
 
 import './css/UserPage.css'
 
-export default function UserPage({ user }) {
+export default function UserPage({ user, history }) {
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [dataPerPage] = useState(10);
@@ -26,6 +26,8 @@ export default function UserPage({ user }) {
         }
         fetchData()
     }, [page]);
+
+    if(user === null) return history.push('/login')
 
     const handleStart = (startNum, index) => {
         const totalData = 500;
