@@ -1,0 +1,25 @@
+.form-user{
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 25px 30px;
+}
+
+.form-user button {
+    display: block;
+    border: none;
+    background-color: limegreen;
+    color: #fff;
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.form-user button:hover {
+    opacity: .8;
+}
+
+.form-user h2 {
+    margin-bottom: 20px;
+}

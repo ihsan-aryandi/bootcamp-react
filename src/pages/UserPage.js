@@ -1,87 +1,51 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import CardProduct from '../components/CardProduct';
-
-import Pagination from '../components/Pagination'
+import Cart from '../components/Cart'
 
 import './css/UserPage.css'
 
-export default function UserPage({ user, history }) {
-    const [isLoading, setIsLoading] = useState(false);
-    const [page, setPage] = useState(1);
-    const [dataPerPage] = useState(10);
-    let [startPagination, setStartPagination] = useState(1);
-    const [products, setProducts] = useState([]);
+import useProducts from '../functions/useProducts'
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const load = setTimeout(() => {
-                setIsLoading(true);
-            }, 300)
-            const res = await fetch(`https://jsonplaceholder.typicode.com/photos?_page=${page}&_limit=${dataPerPage}`);
-            const data = await res.json();
-    
-            clearTimeout(load)
-            setProducts(data);
-            setIsLoading(false);
-        }
-        fetchData()
-    }, [page]);
+export default function UserPage({ user, users, setUsers, history }) {
+
+    const products = useProducts(users);
 
     if(user === null) return history.push('/login')
 
-    const handleStart = (startNum, index) => {
-        const totalData = 500;
-        const midIndex = 2;
-        const midLast = totalData - 2;
-        const minus = index - midIndex;
+    const handleAddToCart = product => {
 
-        if(index > midIndex)
+        const currentProduct = user.productsInCart.find(value => value.id === product.id)
+
+        if(currentProduct === undefined)
         {
-            if(startNum > midLast)
-            {
-                setStartPagination(midLast - 2)
+            const data = {
+                ...product,
+                quantity: 1
             }
-            else
-            {
-                setStartPagination(startPagination => startPagination + minus)
-            }
+
+            setUsers(prevUsers => {
+                const newData = [...prevUsers]
+                const userIndex = newData.findIndex(value => value.id === user.id)
+                newData[userIndex].productsInCart.push(data)
+
+                return newData;
+            })
         }
-        else if(index < midIndex)
+        else
         {
-            if(startNum < (midIndex + 1))
-            {
-                setStartPagination(1)    
-            }
-            else
-            {
-                setStartPagination(startPagination => startPagination + minus)
-            }
+            if((currentProduct.quantity + 1) > product.productStock) return alert('Jumlah barang sudah maksimal')
+
+            setUsers(prevUsers => {
+                const newData = [...prevUsers]
+                const userIndex = newData.findIndex(value => value.id === user.id)
+                const productIndex = newData[userIndex].productsInCart.findIndex(value => value.id === currentProduct.id)
+                newData[userIndex].productsInCart[productIndex] = { ...newData[userIndex].productsInCart[productIndex], quantity: currentProduct.quantity + 1 }
+
+                return newData;
+            })
         }
 
-        setPage(startNum)
-    }
-
-    if(isLoading)
-    {
-        return <div className="loading">
-            <div>
-                <span style={{animationDelay: '.2s'}}>L</span>
-                <span style={{animationDelay: '.4s'}}>O</span>
-                <span style={{animationDelay: '.6s'}}>A</span>
-                <span style={{animationDelay: '.8s'}}>D</span>
-                <span style={{animationDelay: '1s'}}>I</span>
-                <span style={{animationDelay: '1.2s'}}>N</span>
-                <span style={{animationDelay: '1.4s'}}>G</span>
-            </div>
-        </div>
-    }
-
-    let paginations = [];
-
-    for(let i = 0; i < 5; i++)
-    {
-        const num = startPagination++
-        paginations.push(<div className={`order ${num === page ? 'active' : ''}`} onClick={() => handleStart(num, i)} key={num}>{num}</div>)
+        alert('Data disimpan ke keranjang')
     }
 
     return (
@@ -90,12 +54,17 @@ export default function UserPage({ user, history }) {
             <h1 style={{ marginBottom: 50, textAlign: 'center' }}>Produk</h1>
             <div className="products">
                 {products.map(product => (
-                    <CardProduct image={product.thumbnailUrl} key={product.id} title={product.title} />
+                    <CardProduct 
+                        key={product.id}
+                        productPicture={product.productPicture} 
+                        productName={product.productName} 
+                        productPrice={product.productPrice} 
+                        productStock={product.productStock}
+                        onAddToCart={() => handleAddToCart(product)}
+                    />
                 ))}
             </div>
-            <Pagination products={products}>
-                {paginations}
-            </Pagination>
+            <Cart user={user} users={users} setUsers={setUsers} />
         </>
     )
 }

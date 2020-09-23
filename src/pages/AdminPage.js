@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import './css/AdminPage.css'
 
 import Card from '../components/Card'
-import Form from '../components/FormPedagang'
+import Form from '../components/FormUser'
 
 export default function AdminPage({ user, users, setUsers, history }) {
     

@@ -1,0 +1,49 @@
+.cart-bubble {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    z-index: 100;
+}
+
+.cart-bubble .cart-items {
+    position: absolute;
+    width: 500px;
+    max-height: 400px;
+    overflow-y: auto;
+    bottom: calc(100% + 40px);
+    right: 0;
+    transform: translateY(-20px);
+    opacity: 0;
+    pointer-events: none;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15);
+    transition: .2s;
+}
+
+.cart-bubble .toggler {
+    display: none;
+}
+
+.cart-bubble .toggler:checked + .cart-items {
+    transform: translateY(0px);
+    opacity: 1;
+    pointer-events: all;
+}
+
+.cart-bubble .bubble {
+    background-color: limegreen;
+    padding: 16px 32px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 50px;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    transition: .2s;
+}
+
+.cart-bubble .bubble:hover {
+    opacity: .9;
+}

@@ -6,48 +6,22 @@ import './App.css';
 import LoginPage from './pages/LoginPage'
 import Pages from './pages/Pages'
 
+import useUsers from './functions/useUsers'
+
 function App() {
   const [isLogged, setIsLoggedIn] = useState(false);
   const [userLoggedIn, setUserLoggedIn] = useState(null)
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    const getFromLocalStorage = async () => {
-      if(localStorage.getItem("users") === null)
-      {
-        const res = await fetch('https://jsonplaceholder.typicode.com/users')
-        const data = await res.json()
-
-        let dataWithRole = data.map(user => {
-          if(user.role === undefined)
-          {
-            user.role = "user"
-            user.password = ''
-            user.isActive = false
-          }
-
-          return user;
-        })
-
-        dataWithRole = [...dataWithRole, {
-            id: "1A",
-            name: "Ihsan Aryandi",
-            username: "admin",
-            password: "admin",
-            role: "admin"
-        }];
-
-        localStorage.setItem('users', JSON.stringify(dataWithRole))
-        setUsers(prevUsers => [...prevUsers, ...dataWithRole])
-      }
-      else
-      {
-        const data = JSON.parse(localStorage.getItem('users'))
-        setUsers(prevUsers => [...prevUsers, ...data]);
-      }
-    }
-    getFromLocalStorage();
-  }, [])
+  // const [userLoggedIn, setUserLoggedIn] = useState({
+  //   id: 1,
+  //   isActive: true,
+  //   name: "Leanne Graham",
+  //   password: "12345",
+  //   phone: "1-770-736-8031 x56442",
+  //   productsInCart: [],
+  //   role: "user",
+  //   username: "Bret"
+  // })
+  const [users, setUsers] = useUsers();
 
   useEffect(() => {
     localStorage.setItem('users', JSON.stringify(users))
