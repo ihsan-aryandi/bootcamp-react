@@ -2,7 +2,7 @@ import React from 'react'
 
 import './css/Navbar.css'
 
-export default function Navbar({ user, setIsLoggedIn, setUserLoggedIn, history }) {
+export default function Navbar({ setIsLoggedIn, setUserLoggedIn, history }) {
     
     const handleLogout = () => {
         setIsLoggedIn(false);
@@ -13,7 +13,7 @@ export default function Navbar({ user, setIsLoggedIn, setUserLoggedIn, history }
     return (
         <nav>
             <div className="container">
-                <h3>E-Commerce ({ user.role })</h3>
+                <h3>E-Commerce</h3>
                 <ul>
                     <li><button className="logout" onClick={handleLogout}>Logout</button></li>
                 </ul>

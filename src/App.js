@@ -11,16 +11,6 @@ import useUsers from './functions/useUsers'
 function App() {
   const [isLogged, setIsLoggedIn] = useState(false);
   const [userLoggedIn, setUserLoggedIn] = useState(null)
-  // const [userLoggedIn, setUserLoggedIn] = useState({
-  //   id: 1,
-  //   isActive: true,
-  //   name: "Leanne Graham",
-  //   password: "12345",
-  //   phone: "1-770-736-8031 x56442",
-  //   productsInCart: [],
-  //   role: "user",
-  //   username: "Bret"
-  // })
   const [users, setUsers] = useUsers();
 
   useEffect(() => {

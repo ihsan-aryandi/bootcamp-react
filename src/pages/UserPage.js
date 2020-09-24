@@ -45,7 +45,7 @@ export default function UserPage({ user, users, setUsers, history }) {
             })
         }
 
-        alert('Data disimpan ke keranjang')
+        alert(`${product.productName} disimpan ke keranjang`)
     }
 
     return (
