@@ -1,22 +1,23 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import './css/AdminPage.css'
-
+import { deleteUser as deleteUserAction } from '../actions/users'
 import Card from '../components/Card'
 import Form from '../components/FormUser'
+import { useDispatch, useSelector } from 'react-redux'
 
-export default function AdminPage({ user, users, setUsers, history }) {
-    
-    const [newUsers, setNewUsers] = useState([])
+export default function AdminPage({ redirect }) {
     const [action, setAction] = useState('insert')
     const [userEdit, setUserEdit] = useState(null)
     
-    useEffect(() => {
-        const filteredUsers = users.filter(value => value.role === "user")
-        setNewUsers(filteredUsers)
-    }, [users])
+    const users = useSelector(state => state.UsersReducer)
+    const loginStatus = useSelector(state => state.LoginReducer)
     
-    if(user === null) return history.push('/ogin')
+    const deleteUser = useDispatch()
+
+    if(!loginStatus.isLoggedIn || loginStatus.user.role !== "admin") redirect('/')
+
+    const newUsers = users.filter(value => value.role === "user")
     
     const handleEdit = id => {
         const user = users.find(u => (u.id === id && u.role === "user"))
@@ -30,17 +31,15 @@ export default function AdminPage({ user, users, setUsers, history }) {
 
         if(!conf) return;
 
-        const filteredUsers = users.filter(value => value.id !== parseInt(id))
-        setUsers(filteredUsers)
+        deleteUser(deleteUserAction(id));
     }
 
     return (
         <>
-            <h2>Selamat datang { user.name }</h2>
+            <h2>Selamat datang { loginStatus.user.name }</h2>
             <h1 style={{ marginBottom: 50 }}>Data Users</h1>
             <div className="content">
-                <Form 
-                    setUsers={setUsers} 
+                <Form  
                     action={action} 
                     setAction={setAction} 
                     userEdit={userEdit}

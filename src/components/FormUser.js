@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Input from './Input'
+import { addUser, editUserByUserRole } from '../actions/users'
 
 import './css/FormUser.css'
+import { useDispatch } from 'react-redux';
 
-export default function FormUser({ setUsers, action, setAction, userEdit, setUserEdit }) {
+export default function FormUser({ action, setAction, userEdit, setUserEdit }) {
+    const dispatch = useDispatch()
     const [name, setName] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -30,21 +33,11 @@ export default function FormUser({ setUsers, action, setAction, userEdit, setUse
 
         if(action === "insert")
         {
-            setUsers(prevUsers => {
-                newUser.id = prevUsers.length + 1;
-                return [...prevUsers, newUser];
-            })
+            dispatch(addUser(newUser))
         }
         else if(action === "edit")
         {
-            setUsers(prevUsers => {
-                const id = userEdit.id;  
-                const newData = [...prevUsers];
-                const userIndex = newData.findIndex(user => user.id === id);
-                newData[userIndex] = {...newData[userIndex], ...newUser}
-
-                return newData;
-            })
+            dispatch(editUserByUserRole(userEdit.id, newUser))
 
             alert('Edit data berhasil');
 

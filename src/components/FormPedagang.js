@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { v4 as uuidv4 } from 'uuid';
+import { useDispatch } from 'react-redux';
+import { addPedagangProduct, editPedagangProduct } from '../actions/users';
 
 import './css/FormPedagang.css'
 
 import Input from './Input'
 
-export default function FormPedagang({ action, setAction, productEdit, setUsers, user }) {
+export default function FormPedagang({ action, setAction, productEdit, user }) {
+    const dispatch = useDispatch()
     const [input, setInput] = useState({
         productName: '',
         productPicture: '',
@@ -30,24 +32,19 @@ export default function FormPedagang({ action, setAction, productEdit, setUsers,
 
         if(action === "insert")
         {
-            setUsers(prevProducts => {
-                const newData = [...prevProducts]
-                const index = newData.findIndex(value => value.id === user.id)
-                newData[index].products.push({ id: uuidv4(), ...input })
-
-                return newData
-            })
+            dispatch(addPedagangProduct(user.id, input))
         } 
         else if(action === "update")
         {
-            setUsers(prevProducts => {
-                const newData = [...prevProducts]
-                const userIndex = newData.findIndex(u => u.id === user.id)
-                const productIndex = user.products.findIndex(product => product.id === productEdit.id)
-                newData[userIndex].products[productIndex] = { ...newData[userIndex].products[productIndex], ...input }
+            dispatch(editPedagangProduct(user.id, productEdit.id, input))
+            // setUsers(prevProducts => {
+            //     const newData = [...prevProducts]
+            //     const userIndex = newData.findIndex(u => u.id === user.id)
+            //     const productIndex = user.products.findIndex(product => product.id === productEdit.id)
+            //     newData[userIndex].products[productIndex] = { ...newData[userIndex].products[productIndex], ...input }
 
-                return newData
-            })
+            //     return newData
+            // })
 
             setAction('insert')
         }

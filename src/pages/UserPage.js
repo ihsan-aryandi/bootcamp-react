@@ -1,4 +1,6 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { addToUserCart, incrementQuantity } from '../actions/users'
 import CardProduct from '../components/CardProduct';
 import Cart from '../components/Cart'
 
@@ -6,15 +8,21 @@ import './css/UserPage.css'
 
 import useProducts from '../functions/useProducts'
 
-export default function UserPage({ user, users, setUsers, history }) {
-
+export default function UserPage({ redirect }) {
+    const dispatch = useDispatch()
+    const authUser = useSelector(state => state.LoginReducer)
+    const users = useSelector(state => state.UsersReducer)
     const products = useProducts(users);
 
-    if(user === null) return history.push('/login')
+    if(!authUser.isLoggedIn || authUser.user.role !== "user") {
+        redirect('/')
+        return null
+    }
 
     const handleAddToCart = product => {
 
-        const currentProduct = user.productsInCart.find(value => value.id === product.id)
+        const userIndex = users.findIndex(user => user.id === authUser.user.id)
+        const currentProduct = users[userIndex].productsInCart.find(value => value.id === product.id)
 
         if(currentProduct === undefined)
         {
@@ -23,26 +31,14 @@ export default function UserPage({ user, users, setUsers, history }) {
                 quantity: 1
             }
 
-            setUsers(prevUsers => {
-                const newData = [...prevUsers]
-                const userIndex = newData.findIndex(value => value.id === user.id)
-                newData[userIndex].productsInCart.push(data)
-
-                return newData;
-            })
+            dispatch(addToUserCart(authUser.user.id, data))
         }
         else
         {
             if((currentProduct.quantity + 1) > product.productStock) return alert('Jumlah barang sudah maksimal')
 
-            setUsers(prevUsers => {
-                const newData = [...prevUsers]
-                const userIndex = newData.findIndex(value => value.id === user.id)
-                const productIndex = newData[userIndex].productsInCart.findIndex(value => value.id === currentProduct.id)
-                newData[userIndex].productsInCart[productIndex] = { ...newData[userIndex].productsInCart[productIndex], quantity: currentProduct.quantity + 1 }
+            dispatch(incrementQuantity(authUser.user.id, product.id))
 
-                return newData;
-            })
         }
 
         alert(`${product.productName} disimpan ke keranjang`)
@@ -50,7 +46,7 @@ export default function UserPage({ user, users, setUsers, history }) {
 
     return (
         <>
-            <h2>Selamat Datang { user.name }</h2>
+            <h2>Selamat Datang {authUser.user.name}</h2>
             <h1 style={{ marginBottom: 50, textAlign: 'center' }}>Produk</h1>
             <div className="products">
                 {products.map(product => (
@@ -64,7 +60,7 @@ export default function UserPage({ user, users, setUsers, history }) {
                     />
                 ))}
             </div>
-            <Cart user={user} users={users} setUsers={setUsers} />
+            <Cart />
         </>
     )
 }

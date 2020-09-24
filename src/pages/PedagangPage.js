@@ -1,21 +1,29 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { deletePedagangProduct } from '../actions/users'
 
 import './css/PedagangPage.css'
 
 import FormPedagang from '../components/FormPedagang'
-
 import CardProduct from '../components/CardProduct'
 
-export default function PedagangPage({ setUsers, users, user, history }) {
+export default function PedagangPage({ redirect }) {
+    const dispatch = useDispatch()
     const [action, setAction] = useState('insert')
     const [productEdit, setProductEdit] = useState(null)
+    const usersState = useSelector(state => state.UsersReducer)
     
-    if(user === null) return history.push('/login')
+    const authUser = useSelector(state => state.LoginReducer)
+
+    if(!authUser.isLoggedIn || authUser.user.role !== "pedagang") { 
+        redirect('/') 
+        return null
+    }
     
-    const userProducts = user !== null ? user.products : []
+    const userProducts = usersState.find(value => value.id === authUser.user.id).products
 
     const handleEdit = id => {
-        const product = user.products.find(product => product.id === id)
+        const product = userProducts.find(product => product.id === id)
 
         setProductEdit(product)
         setAction('update')
@@ -26,21 +34,21 @@ export default function PedagangPage({ setUsers, users, user, history }) {
 
         if(!conf) return
 
-        setUsers(prevUsers => {
-            const newData = [...prevUsers]
-            const userIndex = users.findIndex(u => u.id === user.id)
-            newData[userIndex].products = newData[userIndex].products.filter(product => product.id !== id)
-        
-            return newData
-        })
+        dispatch(deletePedagangProduct(authUser.user.id, id))
     }
 
     return (
         <>
-            <h2>Selamat Datang {user.name}</h2>
+            <h2>Selamat Datang {authUser.user.name}</h2>
             <h1 style={{ marginBottom: 50, textAlign: 'center' }}>Produk Anda</h1>
             <div className="pedagang-content">
-                <FormPedagang action={action} setAction={setAction} productEdit={productEdit} setUsers={setUsers} user={user}/>
+                <FormPedagang 
+                    action={action} 
+                    setAction={setAction} 
+                    productEdit={productEdit} 
+                    user={authUser.user}
+                />
+
                 <div className="products">
                     {userProducts.map(product => (
 

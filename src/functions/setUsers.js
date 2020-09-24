@@ -1,12 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 
-export default function useUsers() {
-    const users = useState([])
-
+export default function SetUsers(setUsers, users) {
     useEffect(() => {
-        const getFromLocalStorage = async () => {
-            if(localStorage.getItem("users") === null)
-            {
+        const fetchData = async () => {
             const res = await fetch('https://jsonplaceholder.typicode.com/users')
             const data = await res.json()
 
@@ -47,17 +43,15 @@ export default function useUsers() {
                 }
             ];
 
-            localStorage.setItem('users', JSON.stringify(dataWithRole))
-            users[1](prevUsers => [...prevUsers, ...dataWithRole])
+            if(users.length < 1)
+            {
+                setUsers(dataWithRole);
             }
             else
             {
-            const data = JSON.parse(localStorage.getItem('users'))
-            users[1](prevUsers => [...prevUsers, ...data]);
+                setUsers(users);
             }
         }
-        getFromLocalStorage();
-    }, [])
-
-    return users; 
+        fetchData();
+    }, []) 
 }
