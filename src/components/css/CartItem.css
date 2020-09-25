@@ -18,8 +18,11 @@
     object-fit: cover;
 }
 
-.cart-item h4 {
+.cart-item div.product {
     flex: 1;
+}
+
+.cart-item div.product h4 {
     font-weight: 600;
 }
 
