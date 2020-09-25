@@ -4,12 +4,20 @@ import storage from 'redux-persist/lib/storage'
 
 import rootReducer from './reducers'
 
-const config = {
-  key: 'root',
-  storage
-}
+import createEncryptor from 'redux-persist-transform-encrypt'
 
-const persistedReducers = persistReducer(config, rootReducer)
+const encryptor = createEncryptor({
+  secretKey: 'sshhhhhhhhh',
+  onError: function(error) {
+    console.log(error)
+  }
+})
+
+const persistedReducers = persistReducer({
+  key: 'root',
+  storage,
+  transforms: [encryptor]
+}, rootReducer)
 
 export default () => {
   let store = createStore(persistedReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
