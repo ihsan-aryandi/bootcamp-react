@@ -15,7 +15,10 @@ export default function AdminPage({ redirect }) {
     
     const deleteUser = useDispatch()
 
-    if(!loginStatus.isLoggedIn || loginStatus.user.role !== "admin") redirect('/')
+    if(!loginStatus.isLoggedIn || loginStatus.user.role !== "admin") {
+        redirect('/')
+        return null
+    }
 
     const newUsers = users.filter(value => value.role === "user")
     

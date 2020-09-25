@@ -28,7 +28,8 @@ export default function FormUser({ action, setAction, userEdit, setUserEdit }) {
             username: username,
             password: password,
             role: "user",
-            isActive: password === '' ? false : true
+            isActive: password === '' ? false : true,
+            productsInCart: []
         }
 
         if(action === "insert")
